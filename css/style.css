@@ -1,5 +1,315 @@
+/* Reset y base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Header */
+.header {
     text-align: center;
-    background-color: #f0f0f0;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Sección de juego */
+.game-section {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.input-group input {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones */
+.btn-start, .btn-guess, .btn-new-player, .btn-reset {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-start {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: #333;
+}
+
+.btn-guess {
+    background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+    color: #333;
+}
+
+.btn-new-player {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #333;
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
+    color: white;
+    margin: 20px auto;
+    display: block;
+}
+
+/* Efectos hover */
+.btn-start:hover, .btn-guess:hover, .btn-new-player:hover, .btn-reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenido del juego */
+.player-welcome {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.player-name {
+    color: #ffeb3b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.highlight {
+    color: #ff4081;
+    font-weight: bold;
+}
+
+.game-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#guessInput {
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    width: 200px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.game-feedback {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.result-message {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.attempts-counter {
+    font-size: 1.1em;
+    color: #e0f7fa;
+}
+
+/* Temperatura */
+.temperature-guide {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.temp-text {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.temp-bar-container {
+    width: 100%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.temp-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+/* Leaderboard */
+.leaderboard-section {
+    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+    padding: 25px;
+    border-radius: 15px;
+    color: white;
+}
+
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.leaderboard-header h2 {
+    font-size: 1.8em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.trophy {
+    font-size: 2em;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.leaderboard {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 15px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+th {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    font-weight: bold;
+}
+
+/* Social share */
+.social-share {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-facebook, .btn-twitter, .btn-whatsapp {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.btn-facebook { background: #3b5998; }
+.btn-twitter { background: #1da1f2; }
+.btn-whatsapp { background: #25d366; }
+
+.btn-facebook:hover, .btn-twitter:hover, .btn-whatsapp:hover {
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .input-group, .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .input-group input, #guessInput {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .social-buttons {
+        flex-direction: column;
+    }
+    /* Estilo para campos desactivados */
+input:disabled, button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Efecto para campo de nombre desactivado */
+#playerName:disabled {
+    background: rgba(255, 255, 255, 0.7);
+    color: #666;
+}
 }
