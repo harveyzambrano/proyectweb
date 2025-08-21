@@ -1,0 +1,1 @@
+console.log("¡El juego está cargado!");
