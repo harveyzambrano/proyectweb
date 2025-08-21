@@ -1,4 +1,4 @@
-// =============================================
+ // =============================================
 // VARIABLES GLOBALES
 // =============================================
 let secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -6,6 +6,19 @@ let attempts = 0;
 let playerName = "";
 let currentPlayer = "";
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+
+// =============================================
+// FUNCIÓN: OBTENER FECHA Y HORA ACTUAL
+// =============================================
+function getCurrentDateTime() {
+    const now = new Date();
+    const date = now.toLocaleDateString('es-ES');
+    const time = now.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
+    return `${date} ${time}`;
+}
 
 // =============================================
 // FUNCIÓN: INICIAR JUEGO (CORREGIDA)
@@ -34,8 +47,6 @@ function startGame() {
 }
 
 // =============================================
-// FUNCIÓN: NUEVO JUGADOR (CORREGIDA)
-// =============================================
 // FUNCIÓN: NUEVO JUGADOR (MEJORADA)
 // =============================================
 function newPlayer() {
@@ -49,8 +60,8 @@ function newPlayer() {
     document.getElementById('attempts').textContent = 'Intentos: 0';
     document.getElementById('socialShare').style.display = 'none';
     document.getElementById('newPlayerBtn').style.display = 'none';
-    document.getElementById('gameContent').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('gameContent').style.display = 'none';
     
     // REACTIVAR TODOS los controles
     document.getElementById('playerName').disabled = false;
@@ -76,9 +87,6 @@ function newPlayer() {
 // =============================================
 // FUNCIÓN: REINICIAR JUEGO (MEJORADA)
 // =============================================
-// =============================================
-// FUNCIÓN: REINICIAR JUEGO (MEJORADA)
-// =============================================
 function resetGame() {
     secretNumber = Math.floor(Math.random() * 100) + 1;
     attempts = 0;
@@ -99,6 +107,7 @@ function resetGame() {
     updateTemperature(100);
     document.getElementById('tempText').textContent = '¡La aventura comienza!';
 }
+
 // =============================================
 // FUNCIÓN PRINCIPAL: VERIFICAR guess (CORREGIDA)
 // =============================================
@@ -116,51 +125,46 @@ function checkGuess() {
     attempts++;
     attemptsElement.textContent = `Intentos: ${attempts}`;
 
-if (userGuess === secretNumber) {
-    resultElement.textContent = `¡Felicidades ${currentPlayer}! 🎉 Adivinaste en ${attempts} intentos.`;
-    resultElement.style.color = "#4caf50";
-    
-    // Guardar score y mostrar botones
-    saveScore();
-    document.getElementById('socialShare').style.display = 'block';
-    disableInput(); // ← SOLO SE EJECUTA AL GANAR
-    document.getElementById('resetBtn').style.display = 'inline-block';
-    document.getElementById('newPlayerBtn').style.display = 'inline-block';
-    updateTemperature(0);
-    
-} else {
-    // NO llamar a disableInput() aquí
-    const difference = Math.abs(userGuess - secretNumber);
-    updateTemperature(difference);
-    
-    if (userGuess < secretNumber) {
-        resultElement.textContent = "Más alto... ⬆️";
-        resultElement.style.color = "#ff9800";
+    if (userGuess === secretNumber) {
+        resultElement.textContent = `¡Felicidades ${currentPlayer}! 🎉 Adivinaste en ${attempts} intentos.`;
+        resultElement.style.color = "#4caf50";
+        
+        // Guardar score y mostrar botones
+        saveScore();
+        document.getElementById('socialShare').style.display = 'block';
+        disableInput();
+        document.getElementById('resetBtn').style.display = 'inline-block';
+        document.getElementById('newPlayerBtn').style.display = 'inline-block';
+        updateTemperature(0);
+        
     } else {
-        resultElement.textContent = "Más bajo... ⬇️";
-        resultElement.style.color = "#ff9800";
+        const difference = Math.abs(userGuess - secretNumber);
+        updateTemperature(difference);
+        
+        if (userGuess < secretNumber) {
+            resultElement.textContent = "Más alto... ⬆️";
+            resultElement.style.color = "#ff9800";
+        } else {
+            resultElement.textContent = "Más bajo... ⬇️";
+            resultElement.style.color = "#ff9800";
+        }
     }
-}
 }
 
 // =============================================
 // FUNCIÓN: DESHABILITAR INPUT (SOLO AL GANAR)
 // =============================================
 function disableInput() {
-    // Solo desactivar cuando el jugador GANA
     document.getElementById('guessInput').disabled = true;
     document.querySelector('.btn-guess').disabled = true;
-    
-    // Cambiar estilo visual para mostrar que está desactivado
     document.querySelector('.btn-guess').style.opacity = '0.6';
     document.querySelector('.btn-guess').style.cursor = 'not-allowed';
-    
-    // Mostrar botones de control post-juego
     document.getElementById('resetBtn').style.display = 'inline-block';
     document.getElementById('newPlayerBtn').style.display = 'inline-block';
 }
+
 // =============================================
-// LAS DEMÁS FUNCIONES SE MANTIENEN IGUAL
+// FUNCIÓN: CARGAR LEADERBOARD (ACTUALIZADA)
 // =============================================
 function loadLeaderboard() {
     const tbody = document.getElementById('leaderboardBody');
@@ -169,7 +173,7 @@ function loadLeaderboard() {
     const sortedLeaderboard = [...leaderboard].sort((a, b) => a.attempts - b.attempts).slice(0, 10);
     
     if (sortedLeaderboard.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">¡Sé el primero en jugar! 🏆</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5">¡Sé el primero en jugar! 🏆</td></tr>';
         return;
     }
     
@@ -186,26 +190,39 @@ function loadLeaderboard() {
             <td>${player.name}</td>
             <td>${player.attempts}</td>
             <td>${1000 - (player.attempts * 10)}</td>
+            <td>${player.dateTime || 'N/A'}</td>
         `;
         tbody.appendChild(row);
     });
 }
 
+// =============================================
+// FUNCIÓN: GUARDAR SCORE (ACTUALIZADA)
+// =============================================
 function saveScore() {
     const existingIndex = leaderboard.findIndex(p => p.name.toLowerCase() === currentPlayer.toLowerCase());
+    const currentDateTime = getCurrentDateTime();
     
     if (existingIndex !== -1) {
         if (attempts < leaderboard[existingIndex].attempts) {
             leaderboard[existingIndex].attempts = attempts;
+            leaderboard[existingIndex].dateTime = currentDateTime;
         }
     } else {
-        leaderboard.push({ name: currentPlayer, attempts: attempts });
+        leaderboard.push({ 
+            name: currentPlayer, 
+            attempts: attempts, 
+            dateTime: currentDateTime 
+        });
     }
     
     localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     loadLeaderboard();
 }
 
+// =============================================
+// FUNCIÓN: ACTUALIZAR TEMPERATURA
+// =============================================
 function updateTemperature(difference) {
     const tempText = document.getElementById('tempText');
     const tempBar = document.getElementById('tempBar');
