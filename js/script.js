@@ -8,7 +8,7 @@ let currentPlayer = "";
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
 
 // =============================================
-// CONFIGURACIÓN FIREBASE - VERSIÓN CORREGIDA
+// CONFIGURACIÓN FIREBASE - VERSIÓN COMPATIBLE
 // =============================================
 const firebaseConfig = {
     apiKey: "AIzaSyDm-x1f77qTdVvuIzO8cgE9DReQY2BSqoo",
@@ -22,10 +22,8 @@ const firebaseConfig = {
 
 // Inicializar Firebase (VERSIÓN COMPATIBLE)
 try {
-    // Verificar si firebase está disponible
     if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
         console.log("✅ Firebase conectado correctamente");
     } else {
         console.log("ℹ️  Firebase no cargó, usando localStorage");
