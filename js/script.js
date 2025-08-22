@@ -1,7 +1,7 @@
 // =============================================
 // VARIABLES GLOBALES
 // =============================================
-let secretNumber = Math.floor(Math.random() * 100) + 1;
+let secretNumber = Math.floor(Math.random() * 1000) + 1;
 let attempts = 0;
 let playerName = "";
 let currentPlayer = "";
@@ -67,14 +67,14 @@ function startGame() {
     document.querySelector('.btn-start').style.cursor = 'not-allowed';
     
     loadLeaderboard();
-    updateTemperature(100);
+    updateTemperature(1000);
 }
 
 // =============================================
 // FUNCIÓN: NUEVO JUGADOR
 // =============================================
 function newPlayer() {
-    secretNumber = Math.floor(Math.random() * 100) + 1;
+    secretNumber = Math.floor(Math.random() * 1000) + 1;
     attempts = 0;
     
     document.getElementById('guessInput').value = '';
@@ -98,7 +98,7 @@ function newPlayer() {
     document.getElementById('playerName').value = '';
     document.getElementById('playerName').focus();
     
-    updateTemperature(100);
+    updateTemperature(1000);
     playerName = "";
     currentPlayer = "";
 }
@@ -107,7 +107,7 @@ function newPlayer() {
 // FUNCIÓN: REINICIAR JUEGO
 // =============================================
 function resetGame() {
-    secretNumber = Math.floor(Math.random() * 100) + 1;
+    secretNumber = Math.floor(Math.random() * 1000) + 1;
     attempts = 0;
     
     document.getElementById('guessInput').value = '';
@@ -122,7 +122,7 @@ function resetGame() {
     document.querySelector('.btn-guess').style.opacity = '1';
     document.querySelector('.btn-guess').style.cursor = 'pointer';
     
-    updateTemperature(100);
+    updateTemperature(1000);
     document.getElementById('tempText').textContent = '¡La aventura comienza!';
 }
 
@@ -134,7 +134,7 @@ function checkGuess() {
     const resultElement = document.getElementById('result');
     const attemptsElement = document.getElementById('attempts');
 
-    if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+    if (isNaN(userGuess) || userGuess < 1 || userGuess > 1000) {
         resultElement.textContent = "¡Por favor, ingresa un número válido entre 1 y 100!";
         resultElement.style.color = "#ffeb3b";
         return;
@@ -365,15 +365,15 @@ function updateTemperature(difference) {
         temperature = "¡HIRVIENDO! 🔥";
         width = 100;
         color = "#ff0000";
-    } else if (difference <= 5) {
+    } else if (difference <= 50) {
         temperature = "Muy caliente 🌡️";
         width = 80;
         color = "#ff5252";
-    } else if (difference <= 15) {
+    } else if (difference <= 150) {
         temperature = "Caliente ☀️";
         width = 60;
         color = "#ff9800";
-    } else if (difference <= 30) {
+    } else if (difference <= 300) {
         temperature = "Tibio 💨";
         width = 40;
         color = "#ffeb3b";
