@@ -1,12 +1,12 @@
 // =============================================
 // VARIABLES GLOBALES - MODIFICADAS
 // =============================================
-let secretNumber = Math.floor(Math.random() * 10001); // 0-10000
+let secretNumber = Math.floor(Math.random() * 1001); // 0-10000
 let attempts = 0;
 let playerName = "";
 let currentPlayer = "";
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-const MAX_NUMBER = 10000; // ← NUEVA VARIABLE PARA EL RANGO
+const MAX_NUMBER = 1000; // ← NUEVA VARIABLE PARA EL RANGO
 
 // =============================================
 // FUNCIÓN: INICIAR JUEGO - MODIFICADA
@@ -65,7 +65,7 @@ function newPlayer() {
     document.getElementById('playerName').value = '';
     document.getElementById('playerName').focus();
     
-    updateTemperature(10000);
+    updateTemperature(1000);
     playerName = "";
     currentPlayer = "";
 }
@@ -150,19 +150,19 @@ function updateTemperature(difference) {
         temperature = "¡HIRVIENDO! 🔥";
         width = 100;
         color = "#ff0000";
-    } else if (difference <= 500) {        // Muy caliente
+    } else if (difference <= 50) {        // Muy caliente
         temperature = "Muy caliente 🌡️";
         width = 80;
         color = "#ff5252";
-    } else if (difference <= 1500) {       // Caliente
+    } else if (difference <= 150) {       // Caliente
         temperature = "Caliente ☀️";
         width = 60;
         color = "#ff9800";
-    } else if (difference <= 3000) {       // Tibio
+    } else if (difference <= 300) {       // Tibio
         temperature = "Tibio 💨";
         width = 40;
         color = "#ffeb3b";
-    } else if (difference <= 6000) {       // Frío
+    } else if (difference <= 600) {       // Frío
         temperature = "Frío ❄️";
         width = 20;
         color = "#2196f3";
