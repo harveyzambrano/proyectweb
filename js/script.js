@@ -8,37 +8,30 @@ let currentPlayer = "";
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
 
 // =============================================
-// CONFIGURACIÓN FIREBASE - REEMPLAZA CON TUS DATOS
+// CONFIGURACIÓN FIREBASE - VERSIÓN CORREGIDA
 // =============================================
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDm-x1f77qTdVvuIzO8cgE9DReQY2BSqoo",
-  authDomain: "proyectweb-34f87.firebaseapp.com",
-  projectId: "proyectweb-34f87",
-  storageBucket: "proyectweb-34f87.firebasestorage.app",
-  messagingSenderId: "613530880201",
-  appId: "1:613530880201:web:398aaa454aafb430302518",
-  measurementId: "G-8B32GK0JTM"
+    apiKey: "AIzaSyDm-x1f77qTdVvuIzO8cgE9DReQY2BSqoo",
+    authDomain: "proyectweb-34f87.firebaseapp.com",
+    projectId: "proyectweb-34f87",
+    storageBucket: "proyectweb-34f87.firebasestorage.app",
+    messagingSenderId: "613530880201",
+    appId: "1:613530880201:web:398aaa454aafb430302518",
+    measurementId: "G-8B32GK0JTM"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-// Inicializar Firebase
+// Inicializar Firebase (VERSIÓN COMPATIBLE)
 try {
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    console.log("✅ Firebase conectado correctamente");
+    // Verificar si firebase está disponible
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log("✅ Firebase conectado correctamente");
+    } else {
+        console.log("ℹ️  Firebase no cargó, usando localStorage");
+    }
 } catch (error) {
-    console.log("ℹ️  Usando localStorage como respaldo");
+    console.log("⚠️  Error con Firebase, usando localStorage:", error);
 }
 
 // =============================================
@@ -195,7 +188,7 @@ function disableInput() {
 async function loadLeaderboard() {
     // Intentar cargar desde Firebase primero
     try {
-        if (firebase.apps.length > 0) {
+        if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
             const db = firebase.firestore();
             const snapshot = await db.collection('leaderboard')
                 .orderBy('attempts')
@@ -246,7 +239,7 @@ async function saveScore() {
     
     // Intentar guardar en Firebase primero
     try {
-        if (firebase.apps.length > 0) {
+        if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
             const db = firebase.firestore();
             
             // Buscar si el jugador ya existe
