@@ -1,4 +1,4 @@
- // =============================================
+// =============================================
 // VARIABLES GLOBALES
 // =============================================
 let secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -6,6 +6,40 @@ let attempts = 0;
 let playerName = "";
 let currentPlayer = "";
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+
+// =============================================
+// CONFIGURACIÓN FIREBASE - REEMPLAZA CON TUS DATOS
+// =============================================
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDm-x1f77qTdVvuIzO8cgE9DReQY2BSqoo",
+  authDomain: "proyectweb-34f87.firebaseapp.com",
+  projectId: "proyectweb-34f87",
+  storageBucket: "proyectweb-34f87.firebasestorage.app",
+  messagingSenderId: "613530880201",
+  appId: "1:613530880201:web:398aaa454aafb430302518",
+  measurementId: "G-8B32GK0JTM"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Inicializar Firebase
+try {
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    console.log("✅ Firebase conectado correctamente");
+} catch (error) {
+    console.log("ℹ️  Usando localStorage como respaldo");
+}
 
 // =============================================
 // FUNCIÓN: OBTENER FECHA Y HORA ACTUAL
@@ -21,7 +55,7 @@ function getCurrentDateTime() {
 }
 
 // =============================================
-// FUNCIÓN: INICIAR JUEGO (CORREGIDA)
+// FUNCIÓN: INICIAR JUEGO
 // =============================================
 function startGame() {
     const nameInput = document.getElementById('playerName').value.trim();
@@ -36,7 +70,6 @@ function startGame() {
     document.getElementById('currentPlayer').textContent = currentPlayer;
     document.getElementById('gameContent').style.display = 'block';
     
-    // DESACTIVAR campo de nombre y botón de comenzar
     document.getElementById('playerName').disabled = true;
     document.querySelector('.btn-start').disabled = true;
     document.querySelector('.btn-start').style.opacity = '0.6';
@@ -47,14 +80,12 @@ function startGame() {
 }
 
 // =============================================
-// FUNCIÓN: NUEVO JUGADOR (MEJORADA)
+// FUNCIÓN: NUEVO JUGADOR
 // =============================================
 function newPlayer() {
-    // Reiniciar variables
     secretNumber = Math.floor(Math.random() * 100) + 1;
     attempts = 0;
     
-    // Limpiar interfaz
     document.getElementById('guessInput').value = '';
     document.getElementById('result').textContent = '¡Empieza a adivinar!';
     document.getElementById('attempts').textContent = 'Intentos: 0';
@@ -63,7 +94,6 @@ function newPlayer() {
     document.getElementById('resetBtn').style.display = 'none';
     document.getElementById('gameContent').style.display = 'none';
     
-    // REACTIVAR TODOS los controles
     document.getElementById('playerName').disabled = false;
     document.querySelector('.btn-start').disabled = false;
     document.querySelector('.btn-start').style.opacity = '1';
@@ -74,18 +104,16 @@ function newPlayer() {
     document.querySelector('.btn-guess').style.opacity = '1';
     document.querySelector('.btn-guess').style.cursor = 'pointer';
     
-    // Preparar para nuevo jugador
     document.getElementById('playerName').value = '';
     document.getElementById('playerName').focus();
     
     updateTemperature(100);
-    
     playerName = "";
     currentPlayer = "";
 }
 
 // =============================================
-// FUNCIÓN: REINICIAR JUEGO (MEJORADA)
+// FUNCIÓN: REINICIAR JUEGO
 // =============================================
 function resetGame() {
     secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -98,7 +126,6 @@ function resetGame() {
     document.getElementById('newPlayerBtn').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
     
-    // REACTIVAR controles de juego
     document.getElementById('guessInput').disabled = false;
     document.querySelector('.btn-guess').disabled = false;
     document.querySelector('.btn-guess').style.opacity = '1';
@@ -109,7 +136,7 @@ function resetGame() {
 }
 
 // =============================================
-// FUNCIÓN PRINCIPAL: VERIFICAR guess (CORREGIDA)
+// FUNCIÓN PRINCIPAL: VERIFICAR guess
 // =============================================
 function checkGuess() {
     const userGuess = parseInt(document.getElementById('guessInput').value);
@@ -129,7 +156,6 @@ function checkGuess() {
         resultElement.textContent = `¡Felicidades ${currentPlayer}! 🎉 Adivinaste en ${attempts} intentos.`;
         resultElement.style.color = "#4caf50";
         
-        // Guardar score y mostrar botones
         saveScore();
         document.getElementById('socialShare').style.display = 'block';
         disableInput();
@@ -152,7 +178,7 @@ function checkGuess() {
 }
 
 // =============================================
-// FUNCIÓN: DESHABILITAR INPUT (SOLO AL GANAR)
+// FUNCIÓN: DESHABILITAR INPUT
 // =============================================
 function disableInput() {
     document.getElementById('guessInput').disabled = true;
@@ -164,9 +190,129 @@ function disableInput() {
 }
 
 // =============================================
-// FUNCIÓN: CARGAR LEADERBOARD (ACTUALIZADA)
+// FUNCIÓN: CARGAR LEADERBOARD (FIREBASE + LOCAL)
 // =============================================
-function loadLeaderboard() {
+async function loadLeaderboard() {
+    // Intentar cargar desde Firebase primero
+    try {
+        if (firebase.apps.length > 0) {
+            const db = firebase.firestore();
+            const snapshot = await db.collection('leaderboard')
+                .orderBy('attempts')
+                .limit(10)
+                .get();
+                
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = '';
+            
+            if (snapshot.empty) {
+                loadLocalLeaderboard();
+                return;
+            }
+            
+            snapshot.forEach((doc, index) => {
+                const player = doc.data();
+                const row = document.createElement('tr');
+                
+                let positionEmoji = '';
+                if (index === 0) positionEmoji = '🥇';
+                else if (index === 1) positionEmoji = '🥈';
+                else if (index === 2) positionEmoji = '🥉';
+                
+                row.innerHTML = `
+                    <td>${positionEmoji} ${index + 1}</td>
+                    <td>${player.name}</td>
+                    <td>${player.attempts}</td>
+                    <td>${1000 - (player.attempts * 10)}</td>
+                    <td>${player.dateTime || 'N/A'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            return;
+        }
+    } catch (error) {
+        console.log("⚠️  Error con Firebase, usando localStorage:", error);
+    }
+    
+    // Fallback a localStorage
+    loadLocalLeaderboard();
+}
+
+// =============================================
+// FUNCIÓN: GUARDAR SCORE (FIREBASE + LOCAL)
+// =============================================
+async function saveScore() {
+    const currentDateTime = getCurrentDateTime();
+    
+    // Intentar guardar en Firebase primero
+    try {
+        if (firebase.apps.length > 0) {
+            const db = firebase.firestore();
+            
+            // Buscar si el jugador ya existe
+            const playerQuery = await db.collection('leaderboard')
+                .where('name', '==', currentPlayer)
+                .get();
+                
+            if (!playerQuery.empty) {
+                // Jugador existe, actualizar si tiene mejor score
+                const playerDoc = playerQuery.docs[0];
+                const playerData = playerDoc.data();
+                
+                if (attempts < playerData.attempts) {
+                    await playerDoc.ref.update({
+                        attempts: attempts,
+                        dateTime: currentDateTime,
+                        lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    console.log("✅ Record actualizado en Firebase");
+                }
+            } else {
+                // Nuevo jugador
+                await db.collection('leaderboard').add({
+                    name: currentPlayer,
+                    attempts: attempts,
+                    dateTime: currentDateTime,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log("✅ Nuevo record guardado en Firebase");
+            }
+            
+            loadLeaderboard();
+            return;
+        }
+    } catch (error) {
+        console.log("⚠️  Error con Firebase, guardando en localStorage:", error);
+    }
+    
+    // Fallback a localStorage
+    saveLocalScore(currentDateTime);
+}
+
+// =============================================
+// FUNCIONES DE RESPALDO (LOCALSTORAGE)
+// =============================================
+function saveLocalScore(currentDateTime) {
+    const existingIndex = leaderboard.findIndex(p => p.name.toLowerCase() === currentPlayer.toLowerCase());
+    
+    if (existingIndex !== -1) {
+        if (attempts < leaderboard[existingIndex].attempts) {
+            leaderboard[existingIndex].attempts = attempts;
+            leaderboard[existingIndex].dateTime = currentDateTime;
+        }
+    } else {
+        leaderboard.push({ 
+            name: currentPlayer, 
+            attempts: attempts, 
+            dateTime: currentDateTime 
+        });
+    }
+    
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+    loadLocalLeaderboard();
+}
+
+function loadLocalLeaderboard() {
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
     
@@ -194,30 +340,6 @@ function loadLeaderboard() {
         `;
         tbody.appendChild(row);
     });
-}
-
-// =============================================
-// FUNCIÓN: GUARDAR SCORE (ACTUALIZADA)
-// =============================================
-function saveScore() {
-    const existingIndex = leaderboard.findIndex(p => p.name.toLowerCase() === currentPlayer.toLowerCase());
-    const currentDateTime = getCurrentDateTime();
-    
-    if (existingIndex !== -1) {
-        if (attempts < leaderboard[existingIndex].attempts) {
-            leaderboard[existingIndex].attempts = attempts;
-            leaderboard[existingIndex].dateTime = currentDateTime;
-        }
-    } else {
-        leaderboard.push({ 
-            name: currentPlayer, 
-            attempts: attempts, 
-            dateTime: currentDateTime 
-        });
-    }
-    
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-    loadLeaderboard();
 }
 
 // =============================================
@@ -257,7 +379,7 @@ function updateTemperature(difference) {
 }
 
 // =============================================
-// EVENT LISTENERS E INICIALIZACIÓN
+// EVENT LISTENERS
 // =============================================
 document.getElementById('playerName').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
@@ -275,3 +397,22 @@ document.addEventListener('DOMContentLoaded', function() {
     loadLeaderboard();
     updateTemperature(100);
 });
+
+// =============================================
+// FUNCIONES DE COMPARTIR (OPCIONAL)
+// =============================================
+function shareOnFacebook() {
+    const url = encodeURIComponent('https://harveyzambrano.github.io/proyectweb/');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+}
+
+function shareOnTwitter() {
+    const text = encodeURIComponent(`¡Adiviné el número en ${attempts} intentos! 🎯`);
+    const url = encodeURIComponent('https://harveyzambrano.github.io/proyectweb/');
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareOnWhatsApp() {
+    const text = encodeURIComponent(`¡Adiviné el número en ${attempts} intentos! 🎯 Juega aquí: https://harveyzambrano.github.io/proyectweb/`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+}
