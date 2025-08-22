@@ -181,7 +181,7 @@ function disableInput() {
 }
 
 // =============================================
-// FUNCIÓN: CARGAR LEADERBOARD (FIREBASE + LOCAL)
+// FUNCIÓN: CARGAR LEADERBOARD (FIREBASE + LOCAL) - CORREGIDA
 // =============================================
 async function loadLeaderboard() {
     // Intentar cargar desde Firebase primero
@@ -201,8 +201,17 @@ async function loadLeaderboard() {
                 return;
             }
             
-            snapshot.forEach((doc, index) => {
-                const player = doc.data();
+            // 🎯 CORRECCIÓN: Convertir snapshot a array para poder enumerar
+            const players = [];
+            snapshot.forEach(doc => {
+                players.push(doc.data());
+            });
+            
+            // Ordenar por intentos (por si acaso)
+            players.sort((a, b) => a.attempts - b.attempts);
+            
+            // 🎯 MOSTRAR CON MEDALLAS
+            players.forEach((player, index) => {
                 const row = document.createElement('tr');
                 
                 let positionEmoji = '';
@@ -302,7 +311,9 @@ function saveLocalScore(currentDateTime) {
     localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     loadLocalLeaderboard();
 }
-
+// =============================================
+// FUNCIÓN:  LOCAL LEADERBOARD
+// =============================================
 function loadLocalLeaderboard() {
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
@@ -314,6 +325,7 @@ function loadLocalLeaderboard() {
         return;
     }
     
+    // 🎯 Asegúrate de que esta parte tenga las medallas:
     sortedLeaderboard.forEach((player, index) => {
         const row = document.createElement('tr');
         
