@@ -184,34 +184,41 @@ function disableInput() {
 // FUNCIÓN: CARGAR LEADERBOARD (FIREBASE + LOCAL) - CORREGIDA
 // =============================================
 async function loadLeaderboard() {
-    // Intentar cargar desde Firebase primero
     try {
         if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
             const db = firebase.firestore();
             const snapshot = await db.collection('leaderboard')
-                .orderBy('attempts')
-                .limit(10)
+                .orderBy('attempts')  // Ordenar por intentos (menos es mejor)
+                .limit(50)  // ← AQUÍ DEBE DECIR 50
                 .get();
                 
             const tbody = document.getElementById('leaderboardBody');
             tbody.innerHTML = '';
             
             if (snapshot.empty) {
-                loadLocalLeaderboard();
+                tbody.innerHTML = '<tr><td colspan="5">¡Sé el primero en jugar! 🏆</td></tr>';
                 return;
             }
             
-            // 🎯 CORRECCIÓN: Convertir snapshot a array para poder enumerar
+            // 🎯 CONVERTIR A ARRAY Y ORDENAR
             const players = [];
             snapshot.forEach(doc => {
-                players.push(doc.data());
+                const player = doc.data();
+                players.push({
+                    id: doc.id,
+                    name: player.name,
+                    attempts: player.attempts,
+                    dateTime: player.dateTime
+                });
             });
             
-            // Ordenar por intentos (por si acaso)
+            // 🎯 ORDENAR POR INTENTOS (por si Firebase no lo hizo)
             players.sort((a, b) => a.attempts - b.attempts);
             
-            // 🎯 MOSTRAR CON MEDALLAS
-            players.forEach((player, index) => {
+            // 🎯 LIMITAR A 10 Y MOSTRAR
+            const topPlayers = players.slice(0, 10);
+            
+            topPlayers.forEach((player, index) => {
                 const row = document.createElement('tr');
                 
                 let positionEmoji = '';
@@ -231,10 +238,10 @@ async function loadLeaderboard() {
             return;
         }
     } catch (error) {
-        console.log("⚠️  Error con Firebase, usando localStorage:", error);
+        console.log("⚠️  Error con Firebase:", error);
+        loadLocalLeaderboard();  // Fallback a localStorage
     }
     
-    // Fallback a localStorage
     loadLocalLeaderboard();
 }
 
