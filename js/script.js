@@ -135,7 +135,7 @@ function checkGuess() {
     const attemptsElement = document.getElementById('attempts');
 
     if (isNaN(userGuess) || userGuess < 1 || userGuess > 1000) {
-        resultElement.textContent = "¡Por favor, ingresa un número válido entre 1 y 100!";
+        resultElement.textContent = "¡Por favor, ingresa un número válido entre 1 y 1000!";
         resultElement.style.color = "#ffeb3b";
         return;
     }
@@ -405,7 +405,7 @@ document.getElementById('guessInput').addEventListener('keypress', function(e) {
 
 document.addEventListener('DOMContentLoaded', function() {
     loadLeaderboard();
-    updateTemperature(100);
+    updateTemperature(1000);
 });
 
 // =============================================
