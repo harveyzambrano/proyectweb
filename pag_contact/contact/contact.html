@@ -1,0 +1,188 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - MyWebHZ</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="css/contact-style.css">
+        <script type="text/javascript">
+        // Inicializar EmailJS con tu User ID (API Key)
+        // REEMPLAZA 'YOUR_USER_ID' con tu API Key de EmailJS
+        emailjs.init("_OJi00zKar_pZYArU");
+    </script>
+</head>
+<body>
+    <!-- Header estilo Amazon -->
+    <header class="amazon-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="index.html" class="logo-link">
+                    <h1 class="logo">MyWeb<span class="logo-hz">HZ</span></h1>
+                </a>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar herramientas..." disabled>
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+            <div class="header-nav">
+                <a href="index.html" class="nav-item">Inicio</a>
+                <a href="contact.html" class="nav-item">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span class="breadcrumb-divider">›</span>
+            <span>Contacto</span>
+        </div>
+
+        <!-- Sección de contacto -->
+        <section class="contact-section">
+            <h2 class="section-title">Contáctanos</h2>
+            <p class="section-subtitle">Estamos aquí para ayudarte. Envíanos tus preguntas o comentarios.</p>
+            
+            <div class="contact-container">
+                <!-- Formulario de contacto -->
+                <div class="contact-form-container">
+                    <h3>Envíanos un mensaje</h3>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="support">Soporte técnico</option>
+                                <option value="suggestion">Sugerencia</option>
+                                <option value="bug">Reportar un error</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Enviar mensaje</button>
+                    </form>
+                </div>
+                
+                <!-- Información de contacto -->
+                <div class="contact-info">
+                    <h3>Información de contacto</h3>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Correo electrónico</h4>
+                            <p>contacto@mywebhz.com</p>
+                            <small>Respondemos en menos de 24 horas</small>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h4>Horario de atención</h4>
+                            <p>Lunes a Viernes: 9:00 - 18:00</p>
+                            <p>Sábados: 10:00 - 14:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-details">
+                            <h4>Síguenos</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-link">Twitter</a>
+                                <a href="#" class="social-link">Facebook</a>
+                                <a href="#" class="social-link">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preguntas frecuentes -->
+        <section class="faq-section">
+            <h2 class="section-title">Preguntas frecuentes</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">¿Cómo uso el conversor de PDF?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Selecciona el archivo PDF que deseas convertir, elige el tamaño de página y la calidad, luego haz clic en "Convertir". El proceso se realiza completamente en tu navegador.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">¿Mis archivos se suben a algún servidor?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>No, todo el procesamiento se realiza localmente en tu navegador. Tus archivos nunca se envían a nuestros servidores, garantizando tu privacidad.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">¿Hay límite de tamaño para los PDF?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Para PDFs muy grandes (más de 50 páginas), el proceso puede tardar varios minutos dependiendo de tu dispositivo. Recomendamos dividir archivos muy grandes.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">¿Puedo sugerir nuevas herramientas?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>¡Por supuesto! Nos encanta recibir sugerencias. Utiliza el formulario de contacto para proponer nuevas herramientas que te gustaría ver en MyWebHZ.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="amazon-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Conoce MyWebHZ</h4>
+                <a href="#">Trabaja con nosotros</a>
+                <a href="#">Acerca de MyWebHZ</a>
+                <a href="#">Sostenibilidad</a>
+            </div>
+            <div class="footer-section">
+                <h4>Herramientas</h4>
+                <a href="Pag0.Docs/1.PdfToImg/index.html">Conversor PDF</a>
+                <a href="pag1.Games/1.AdivinaNum/index.html">Adivina el Número</a>
+                <a href="#">Próximamente</a>
+            </div>
+            <div class="footer-section">
+                <h4>Ayuda</h4>
+                <a href="contact.html">Contacto</a>
+                <a href="#">FAQ</a>
+                <a href="#">Soporte Técnico</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 MyWebHZ - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/contact-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Adivina el Número - Challenge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- EN TU index.html DEBEN ESTAR ESTOS SCRIPTS: -->
+
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header con título vibrante -->
+        <div class="header">
+            <h1>🎯 ADIVINA EL NÚMERO</h1>
+            <p>¿Tienes lo que se necesita para llegar al top?</p>
+        </div>
+
+        <!-- Sección de ingreso de nombre y juego -->
+        <div class="game-section">
+            <div class="input-group">
+                <input type="text" id="playerName" placeholder="🎩 Ingresa tu nombre" maxlength="15">
+                <button class="btn-start" onclick="startGame()">🚀 Comenzar Juego</button>
+            </div>
+
+            <div id="gameContent" style="display:none;">
+                <div class="player-welcome">
+                    <h2>¡Hola, <span id="currentPlayer" class="player-name"></span>!</h2>
+                    <p>Estoy pensando en un número entre <span class="highlight">1</span> y <span class="highlight">1000</span></p>
+                </div>
+
+                <div class="game-controls">
+                    <input type="number" id="guessInput" min="1" max="10000" placeholder="🔍 Escribe el Numero...">
+                    <button class="btn-guess" onclick="checkGuess()">🎯 Adivinar</button>
+                    <button class="btn-new-player" onclick="newPlayer()" id="newPlayerBtn" style="display:none;">👥 Nuevo Jugador</button>
+                </div>
+
+                <div class="game-feedback">
+                    <p id="result" class="result-message">¡Empieza a adivinar!</p>
+                    <p id="attempts" class="attempts-counter">Intentos: 0</p>
+                </div>
+
+                <div id="temperature" class="temperature-guide">
+                    <span id="tempText" class="temp-text">¡La aventura comienza!</span>
+                    <div class="temp-bar-container">
+                        <div id="tempBar" class="temp-bar"></div>
+                    </div>
+                </div>
+
+                <div id="socialShare" class="social-share" style="display:none;">
+                    <h3>¡Comparte tu victoria! 🏆</h3>
+                    <div class="social-buttons">
+                        <button class="btn-facebook" onclick="shareOnFacebook()">📘 Facebook</button>
+                        <button class="btn-twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
+                        <button class="btn-whatsapp" onclick="shareOnWhatsApp()">💚 WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de records con diseño mejorado -->
+        <div class="leaderboard-section">
+            <div class="leaderboard-header">
+                <h2>🏆 TABLA DE CAMPEONES</h2>
+                <span class="trophy">⭐</span>
+            </div>
+            <div class="leaderboard">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Nombre</th>
+                            <th>Intentos</th>
+                            <th>Puntos</th>
+                            <th>Fecha y Hora</th> <!-- NUEVA COLUMNA -->
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Records se cargarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Botón de reinicio para el jugador actual -->
+        <button onclick="resetGame()" id="resetBtn" class="btn-reset" style="display:none;">🔄 Jugar de Nuevo</button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
