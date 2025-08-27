@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎮 Adivina el Número - Challenge</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- EN TU index.html DEBEN ESTAR ESTOS SCRIPTS: -->
+
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+
 </head>
 <body>
     <div class="container">
@@ -24,11 +30,11 @@
             <div id="gameContent" style="display:none;">
                 <div class="player-welcome">
                     <h2>¡Hola, <span id="currentPlayer" class="player-name"></span>!</h2>
-                    <p>Estoy pensando en un número entre <span class="highlight">1</span> y <span class="highlight">100</span></p>
+                    <p>Estoy pensando en un número entre <span class="highlight">1</span> y <span class="highlight">1000</span></p>
                 </div>
 
                 <div class="game-controls">
-                    <input type="number" id="guessInput" min="1" max="100" placeholder="🔍 Escribe el Numero...">
+                    <input type="number" id="guessInput" min="1" max="10000" placeholder="🔍 Escribe el Numero...">
                     <button class="btn-guess" onclick="checkGuess()">🎯 Adivinar</button>
                     <button class="btn-new-player" onclick="newPlayer()" id="newPlayerBtn" style="display:none;">👥 Nuevo Jugador</button>
                 </div>
@@ -70,6 +76,7 @@
                             <th>Nombre</th>
                             <th>Intentos</th>
                             <th>Puntos</th>
+                            <th>Fecha y Hora</th> <!-- NUEVA COLUMNA -->
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
