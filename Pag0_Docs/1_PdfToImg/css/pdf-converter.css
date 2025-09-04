@@ -1,0 +1,255 @@
+ :root {
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --secondary: #2c3e50;
+    --light: #ecf0f1;
+    --accent-1: #e74c3c;
+    --accent-2: #2ecc71;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: var(--secondary);
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 15px;
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.back-button:hover {
+    opacity: 1;
+}
+
+.main-content {
+    padding: 25px;
+    flex: 1;
+}
+
+.upload-section {
+    margin-bottom: 25px;
+}
+
+.upload-area {
+    border: 3px dashed var(--primary);
+    border-radius: 10px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.upload-area:hover, .upload-area.dragover {
+    background-color: rgba(52, 152, 219, 0.1);
+    border-color: var(--primary-dark);
+}
+
+.upload-icon {
+    font-size: 50px;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.upload-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--secondary);
+}
+
+.upload-subtext {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+#file-input {
+    display: none;
+}
+
+.settings {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.settings-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--secondary);
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.radio-label {
+    font-size: 16px;
+}
+
+.quality-slider {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.progress-container {
+    margin: 25px 0;
+    display: none;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.status {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 500;
+    color: var(--secondary);
+}
+
+.info-box {
+    background-color: #e8f4fc;
+    border-left: 4px solid var(--primary);
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.info-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--secondary);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        border-radius: 10px;
+    }
+    
+    header {
+        padding: 20px 15px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+    }
+}

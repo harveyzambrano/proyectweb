@@ -1,0 +1,78 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor PDF a PDF de Imágenes</title>
+    <link rel="stylesheet" href="../../../css/shared.css">
+    <link rel="stylesheet" href="css/pdf-converter.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conversor de PDF a PDF de Imágenes</h1>
+            <p>Convierte cada página de tu PDF en una imagen - 100% en tu navegador</p>
+            <a href="../../../index.html" class="back-button">← Volver al Inicio</a>
+        </header>
+        
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">📄</div>
+                    <p class="upload-text">Haz clic o arrastra tu archivo PDF aquí</p>
+                    <p class="upload-subtext">El procesamiento se realiza completamente en tu navegador</p>
+                    <input type="file" id="file-input" accept=".pdf">
+                </div>
+            </div>
+            
+            <div class="settings">
+                <h3 class="settings-title">Configuración de conversión</h3>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Tamaño de página:</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="page-size" value="carta" checked>
+                            <span class="radio-label">Carta (216x279 mm)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="page-size" value="oficio">
+                            <span class="radio-label">Oficio (216x356 mm)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Calidad de imagen:</label>
+                    <input type="range" min="50" max="100" value="85" class="quality-slider" id="quality-slider">
+                    <div class="slider-labels">
+                        <span>Baja calidad</span>
+                        <span id="quality-value">85%</span>
+                        <span>Alta calidad</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="convert-btn" class="btn" disabled>Convertir a PDF de imágenes</button>
+            
+            <div class="progress-container" id="progress-container">
+                <progress id="progress-bar" value="0" max="100"></progress>
+                <div class="status" id="status">Preparando...</div>
+            </div>
+            
+            <div class="info-box">
+                <p class="info-title">Nota importante:</p>
+                <p>Este conversor funciona completamente en tu navegador. Tus archivos no se suben a ningún servidor, garantizando tu privacidad. Para documentos muy grandes (>50 páginas), el proceso puede tardar varios minutos.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Procesamiento 100% seguro en tu navegador • Tus archivos nunca se suben a internet</p>
+        </footer>
+    </div>
+
+    <script src="script/pdf-converter.js"></script>
+</body>
+</html>
